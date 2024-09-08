@@ -28,8 +28,8 @@ class pm(pygame.sprite.Sprite):
         super().__init__()
         self.image=pygame.transform.rotate(pygame.transform.scale(image,(pw,ph)),angle)
         self.rect=self.image.get_rect()
-        self.x=x
-        self.y=y
+        self.rect.x=x
+        self.rect.y=y
     def horizontal(self,vel,player):
         self.rect.x+=vel
         if player==1:
@@ -42,7 +42,7 @@ class pm(pygame.sprite.Sprite):
         self.rect.move_ip(0,vel)
         if self.rect.top<=0 or self.rect.bottom>=500:
             self.rect.move_ip(0,-vel)
-pl1=pm(p1,0,200,200)
+pl1=pm(p1,0,100,200)
 pl2=pm(p2,0,600,200)
 sprites=pygame.sprite.Group()
 sprites.add(pl1)
