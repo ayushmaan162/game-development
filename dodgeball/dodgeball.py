@@ -60,11 +60,11 @@ pl1ball=[]
 pl2ball=[]   
 def bal():
     for ball in pl1ball:
-        pygame.draw.circle(Screen,"red",(ball.x,ball.y),10)
-        ball.x-=5
+        pygame.draw.circle(Screen,"red",(ball["x"],ball["y"]),10)
+        ball["x"]+=5
     for ball in pl2ball:
-        pygame.draw.circle(Screen,"yellow",(ball.x,ball.y),10)
-        ball.x-=5
+        pygame.draw.circle(Screen,"yellow",(ball["x"],ball["y"]),10)
+        ball["x"]-=5
 pl1_hit=pygame.USEREVENT+1
 pl2_hit=pygame.USEREVENT+2
 while run:
@@ -73,10 +73,10 @@ while run:
             run = False
         if event.type==KEYDOWN:
             if event.key==K_LSHIFT:
-                ball=(pl1.rect.x+pl1.rect.width,pl1.rect.y+pl1.rect.height//2)
+                ball={'x':pl1.rect.x+pl1.rect.width,'y':pl1.rect.y+pl1.rect.height//2}
                 pl1ball.append(ball)
             if event.key==K_RSHIFT:
-                ball=(pl2.rect.x,pl2.rect.y+pl2.rect.height//2)
+                ball={'x':pl2.rect.x,'y':pl2.rect.y+pl2.rect.height//2}
                 pl2ball.append(ball)
     bg()
     sprites.draw(Screen)
