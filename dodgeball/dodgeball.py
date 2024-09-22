@@ -17,7 +17,7 @@ max=5
 pw,ph=40,50
 #font
 hf=pygame.font.SysFont('comicsans',35)
-wnf=pygame.font.SysFont('Alberobelloserif',50)
+wnf=pygame.font.SysFont('Alberobelloserif',70)
 p1=pygame.image.load("dodgeball p1.png")
 p2=pygame.image.load("dodgeball p2.png")
 arena=pygame.transform.scale(pygame.image.load("dodgeball arena.jpg"),(WIDTH,HEIGHT))
@@ -70,31 +70,40 @@ pl2_hit=pygame.USEREVENT+2
 def bctrl():
     global h1,h2
     for ball in pl2ball:
-        if pl1.colliderect(ball):
+        ball_rect=pygame.Rect(ball["x"],ball["y"],10,10)
+        if pl1.rect.colliderect(ball_rect):
             h1-=1
             pl2ball.remove(ball)
-        elif ball.x<0:
+        elif ball["x"]<0:
             pl2ball.remove(ball)
     for ball in pl1ball:
-        if pl2.rect.colliderect(ball):
+        ball_rect=pygame.Rect(ball["x"],ball["y"],10,10)
+        if pl2.rect.colliderect(ball_rect):
             pygame.event.post(pygame.event.Event(pl2_hit))
             pl1ball.remove(ball)
-        elif ball.x<0:
+        elif ball["x"]<0:
             pl1ball.remove(ball)
     for b1 in pl1ball:
+        b1_rect=pygame.Rect(b1["x"],b1["y"],10,10)
         for b2 in pl2ball:
-            if b1.colliderect(b2):
+            b2_rect=pygame.Rect(b2["x"],b2["y"],10,10)
+            if b1_rect.colliderect(b2_rect):
                 pl1ball.remove(b1)
                 pl2ball.remove(b2)
+def winner(txt):
+    text=wnf.render(txt,1,"lime")
+    Screen.blit(text,(200,250))
+    pygame.display.update()
+    pygame.time.delay(5000)
 while run:
     for event in pygame.event.get():
         if event.type == QUIT:
             run = False
         if event.type==KEYDOWN:
-            if event.key==K_LSHIFT:
+            if event.key==K_LCTRL:
                 ball={'x':pl1.rect.x+pl1.rect.width,'y':pl1.rect.y+pl1.rect.height//2}
                 pl1ball.append(ball)
-            if event.key==K_RSHIFT:
+            if event.key==K_RCTRL:
                 ball={'x':pl2.rect.x,'y':pl2.rect.y+pl2.rect.height//2}
                 pl2ball.append(ball)
         if event.type==pl1_hit:
@@ -123,5 +132,13 @@ while run:
     sprites.draw(Screen)
     bal()
     bctrl()
+    if h1<=-1:
+        wntxt="PLAYER 2 WINS"
+        winner(wntxt)
+        run=False
+    if h2<=-1:
+        wntxt="PLAYER 1 WINS"
+        winner(wntxt)
+        run=False
     pygame.display.update()
 pygame.quit()
