@@ -67,6 +67,25 @@ def bal():
         ball["x"]-=5
 pl1_hit=pygame.USEREVENT+1
 pl2_hit=pygame.USEREVENT+2
+def bctrl():
+    global h1,h2
+    for ball in pl2ball:
+        if pl1.colliderect(ball):
+            h1-=1
+            pl2ball.remove(ball)
+        elif ball.x<0:
+            pl2ball.remove(ball)
+    for ball in pl1ball:
+        if pl2.rect.colliderect(ball):
+            pygame.event.post(pygame.event.Event(pl2_hit))
+            pl1ball.remove(ball)
+        elif ball.x<0:
+            pl1ball.remove(ball)
+    for b1 in pl1ball:
+        for b2 in pl2ball:
+            if b1.colliderect(b2):
+                pl1ball.remove(b1)
+                pl2ball.remove(b2)
 while run:
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -78,9 +97,10 @@ while run:
             if event.key==K_RSHIFT:
                 ball={'x':pl2.rect.x,'y':pl2.rect.y+pl2.rect.height//2}
                 pl2ball.append(ball)
-    bg()
-    sprites.draw(Screen)
-    bal()
+        if event.type==pl1_hit:
+            h1-=1
+        if event.type==pl2_hit:
+            h2-=1
     key=pygame.key.get_pressed()
     if key[K_a]:
         pl1.horizontal(-1,1)
@@ -99,5 +119,9 @@ while run:
         pl2.vertical(-1)
     if key[K_DOWN]:
         pl2.vertical(1)
+    bg()
+    sprites.draw(Screen)
+    bal()
+    bctrl()
     pygame.display.update()
 pygame.quit()
