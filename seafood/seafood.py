@@ -54,7 +54,7 @@ while run:
             run=False
     duration=time.time()-start
     if duration>=30:
-        if score>=1:
+        if score>=10:
             text=font.render("YOU WIN!!",True,"light green")
         else:
             text=font.render("YOU LOSE!!",True,"Red")
