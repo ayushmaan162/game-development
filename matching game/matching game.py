@@ -27,3 +27,14 @@ while True:
             pos=pygame.mouse.get_pos()
             pygame.draw.circle(screen,"beige",(pos),20,0)
             pygame.display.update()
+        elif event.type==pygame.MOUSEBUTTONUP:
+            upos=pygame.mouse.get_pos()
+            pygame.draw.line(screen,("beige"),(pos),(upos),5)
+            pygame.draw.circle(screen,"beige",(upos),20,0)
+            pygame.display.update()
+        if event.type==pygame.QUIT:
+            pygame.quit()
+        if event.type==pygame.MOUSEBUTTONDOWN:
+            pos=pygame.mouse.get_pos()
+            pygame.draw.circle(screen,"beige",(pos),20,0)
+            pygame.display.update()
